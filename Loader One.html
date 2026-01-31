@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <style>
+      .preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background-color: #040a10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* container */
+      .preloader .loading-container {
+        height: 120px;
+        width: 120px;
+        position: relative;
+        border-radius: 50%;
+      }
+
+      /* spinner ring */
+      .preloader .loading {
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-color: transparent #4642fc transparent #4642fc;
+        animation: rotate-loading 1.5s linear infinite;
+      }
+
+      /* center logo */
+      .preloader #loading-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        max-width: 50px;
+        transform: translate(-50%, -50%);
+      }
+      #loading-icon img {
+        max-width: 100%;
+        height: auto;
+        -webkit-user-drag: none;
+        -moz-user-drag: none;
+      }
+
+      /* animation */
+      @keyframes rotate-loading {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="preloader">
+      <div class="loading-container">
+        <div class="loading"></div>
+        <div id="loading-icon">
+          <img
+            src="https://saaslyndemos.wprealizer.com/powerai/wp-content/themes/saaslyn/assets/img/logo-icon.svg"
+            alt="Preloader Logo"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
