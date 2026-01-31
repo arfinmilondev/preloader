@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Image Reveal Preloader</title>
+
+    <style>
+      /* ===============================
+   RESET
+================================ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* ===============================
+   PRELOADER
+================================ */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        background: #efede6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        font-family: Arial, Helvetica, sans-serif;
+        overflow: hidden;
+      }
+
+      /* ===============================
+   LAYOUT
+================================ */
+      .loader-row {
+        display: flex;
+        align-items: center;
+        max-width: 90vw;
+      }
+
+      /* ===============================
+   TEXT
+================================ */
+      .loader-text {
+        font-size: clamp(42px, 10vw, 120px);
+        font-weight: 900;
+        letter-spacing: -0.08em;
+        color: #6f6f6f;
+        line-height: 1;
+        transition: transform 1.1s cubic-bezier(0.77, 0, 0.18, 1);
+      }
+
+      /* PHASE 1 — TEXT TOGETHER (LOADING) */
+      .text-left {
+        transform: translateX(0.2em);
+      }
+
+      .text-right {
+        transform: translateX(-0.2em);
+      }
+
+      /* ===============================
+   CENTER IMAGE (RESPONSIVE)
+================================ */
+      .reveal-wrapper {
+        position: relative;
+
+        /* Image always smaller than text */
+        width: clamp(60px, 8vw, 160px);
+        height: clamp(80px, 11vw, 200px);
+
+        margin: 0 clamp(10px, 3vw, 24px);
+        overflow: hidden;
+      }
+
+      /* IMAGE — FULLY HIDDEN INITIALLY */
+      .reveal-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        border-radius: 0 clamp(12px, 3vw, 40px) clamp(12px, 3vw, 40px) 0;
+
+        /* HARD HIDE */
+        clip-path: inset(0 50% 0 50%);
+        transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+      }
+
+      /* CENTER LINE */
+      .center-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        background: #b5b2aa;
+        transform: translateX(-50%);
+        z-index: 2;
+        transition: opacity 0.3s ease;
+      }
+
+      /* ===============================
+   PHASE 2 — IMAGE REVEAL
+================================ */
+      .preloader-reveal img {
+        clip-path: inset(0 0 0 0);
+      }
+
+      .preloader-reveal .center-line {
+        opacity: 0;
+      }
+
+      /* ===============================
+   PHASE 3 — TEXT SPLIT
+================================ */
+      .preloader-split .text-left {
+        transform: translateX(-0.2em);
+      }
+
+      .preloader-split .text-right {
+        transform: translateX(0.2em);
+      }
+
+      /* ===============================
+   EXIT (OPTIONAL)
+================================ */
+      .preloader-hide {
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- PRELOADER -->
+    <div id="preloader">
+      <div class="loader-row">
+        <div class="loader-text text-left">LOA</div>
+
+        <div class="reveal-wrapper">
+          <div class="center-line"></div>
+          <img
+            id="centerImage"
+            src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?q=80&w=800"
+            alt=""
+          />
+        </div>
+
+        <div class="loader-text text-right">ING</div>
+      </div>
+    </div>
+
+    <script>
+      /* ===============================
+   IMAGE ROTATION
+================================ */
+      const images = [
+        "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?q=80&w=800",
+        "https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=800",
+        "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=800",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800",
+      ];
+
+      let i = 0;
+      const img = document.getElementById("centerImage");
+
+      setInterval(() => {
+        i = (i + 1) % images.length;
+        img.src = images[i];
+      }, 1200);
+
+      /* ===============================
+   ANIMATION TIMELINE
+================================ */
+      const preloader = document.getElementById("preloader");
+
+      /* Phase 2 — Reveal image */
+      setTimeout(() => {
+        preloader.classList.add("preloader-reveal");
+      }, 800);
+
+      /* Phase 3 — Split text */
+      setTimeout(() => {
+        preloader.classList.add("preloader-split");
+      }, 1400);
+
+      /* OPTIONAL REMOVE
+setTimeout(() => {
+  preloader.classList.add("preloader-hide");
+  setTimeout(() => preloader.remove(), 600);
+}, 6000);
+*/
+    </script>
+  </body>
+</html>
